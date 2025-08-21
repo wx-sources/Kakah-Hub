@@ -9,7 +9,7 @@ local Window = redzlib:MakeWindow({
   })
 
   Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://89018617324929", BackgroundTransparency = 0 },
+    Button = { Image = "rbxassetid://0", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
 
@@ -4268,3 +4268,4 @@ Tab9:AddButton({"Parar Tudo", function()
     originalProperties = nil
     showNotification("Tudo Parado", "Todas as funções foram desativadas.", nil)
 end})
+
