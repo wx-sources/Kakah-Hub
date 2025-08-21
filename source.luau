@@ -1,142 +1,10 @@
-local Players = game:GetSPlayers")
-local TweenService = game:GetService("TweenService")
-local CoreGui = game:GetService("CoreGui")
-local StarterGui = game:GetService("StarterGui")
-local lp = Players.LocalPlayer
 
--- Função que cria a tela de loading e retorna uma promise
-local function createLoadingScreen()
-    local promise = {}
-    promise.completed = false
-    promise.connection = nil
-    
-    -- Remove GUI antiga se existir
-    pcall(function()
-        if CoreGui:FindFirstChild("LoadingScreen") then
-            CoreGui.LoadingScreen:Destroy()
-        end
-    end)
-
-    -- Cria a UI de carregamento
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "LoadingScreen"
-    gui.IgnoreGuiInset = true
-    gui.ResetOnSpawn = false
-    gui.Parent = CoreGui
-    pcall(function() syn.protect_gui(gui) end)
-
-    local frame = Instance.new("Frame")
-    frame.BackgroundColor3 = Color3.new(0, 0, 0)
-    frame.BackgroundTransparency = 0.3
-    frame.Size = UDim2.new(1, 0, 1, 0)
-    frame.Parent = gui
-
-    local image = Instance.new("ImageLabel")
-    image.Size = UDim2.new(0, 300, 0, 300)
-    image.Position = UDim2.new(0.5, -150, 0.35, -150)
-    image.BackgroundTransparency = 1
-    image.Image = "rbxassetid://75732220851513"
-    image.Parent = frame
-
-    local nameText = Instance.new("TextLabel")
-    nameText.Size = UDim2.new(1, 0, 0, 40)
-    nameText.Position = UDim2.new(0, 0, 0.65, 0)
-    nameText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    nameText.TextStrokeTransparency = 0.3
-    nameText.BackgroundTransparency = 1
-    nameText.Font = Enum.Font.FredokaOne
-    nameText.TextScaled = true
-    nameText.Text = "Verificando usuário: "..lp.Name.." (Conta: "..tostring(lp.AccountAge).." dias)"
-    nameText.Parent = frame
-
-    local barBG = Instance.new("Frame")
-    barBG.Size = UDim2.new(0.6, 0, 0.03, 0)
-    barBG.Position = UDim2.new(0.2, 0, 0.8, 0)
-    barBG.BackgroundColor3 = Color3.new(1, 1, 1)
-    barBG.BorderSizePixel = 0
-    barBG.Parent = frame
-
-    local bar = Instance.new("Frame")
-    bar.Size = UDim2.new(0, 0, 1, 0)
-    bar.BackgroundColor3 = Color3.new(0.7, 0.2, 0.6)
-    bar.BorderSizePixel = 0
-    bar.Parent = barBG
-
-    -- Animação da barra de carregamento
-    local tween = TweenService:Create(
-        bar,
-        TweenInfo.new(4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-        {Size = UDim2.new(1, 0, 1, 0)}
-    )
-    tween:Play()
-
-    -- Função para limpar a UI
-    local function cleanup()
-        if gui then
-            gui:Destroy()
-        end
-        if promise.connection then
-            promise.connection:Disconnect()
-        end
-    end
-
-    -- Após a barra carregar, faz o fade out e destrói a UI
-    promise.connection = tween.Completed:Connect(function()
-        -- Fade out suave da UI
-        TweenService:Create(frame, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(barBG, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(bar, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(image, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
-        TweenService:Create(nameText, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 1}):Play()
-        
-        -- Aguarda o fade out terminar
-        task.delay(1.2, function()
-            -- Toca som de conclusão
-            local sound = Instance.new("Sound")
-            sound.SoundId = "rbxassetid://8486683243"
-            sound.Volume = 0.5
-            sound.PlayOnRemove = true
-            sound.Parent = workspace
-            sound:Destroy()
-            
-            -- Exibe a notificação de boas-vindas
-            StarterGui:SetCore("SendNotification", {
-                Title = "Bak Hub",
-                Text = "Bem-vindo à Bak Hub ",
-                Duration = 4
-            })
-            
-            -- Marca como concluído e limpa
-            promise.completed = true
-            cleanup()
-        end)
-    end)
-    
-    return promise
-end
-
--- Função para esperar até que a promise seja resolvida
-local function waitForPromise(promise)
-    while not promise.completed do
-        task.wait()
-    end
-end
-
--- Uso:
-local loadingPromise = createLoadingScreen()
-
--- Aqui você coloca o código que deve esperar até que o loading termine
-waitForPromise(loadingPromise)
-
--- SEU CÓDIGO ABAIXO AQUI
-print("Loading completo! Agora executando o resto do script...")
--- ... resto do seu código ...
 
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/Library-ui/refs/heads/main/Redzhubui"))()
 
 local Window = redzlib:MakeWindow({
-    Title = "Coquette Hub 3.7_Nova_era",
-    SubTitle = "by Lolytadev ",
+    Title = "Kakah Hub v1.0.1",
+    SubTitle = "by ",
     SaveFolder = "teste"
   })
 
@@ -156,9 +24,9 @@ local Tab6 = Window:MakeTab({"RGB", "brush"})
 local Tab7 = Window:MakeTab({"Music All", "radio"})    
 local Tab8 = Window:MakeTab({"Music", "music"}) 
 local Tab9 = Window:MakeTab({"Troll", "skull"}) 
-local Tab10 = Window:MakeTab({"Lag Server", "bomb"})
-local Tab11 = Window:MakeTab({"Scripts", "scroll"})
-local Tab12 = Window:MakeTab({"Teleportes", "map-pin"})
+local Tab10 = Window:MakeTab({"Coming soon", "bomb"})
+local Tab11 = Window:MakeTab({"Coming soon", "scroll"})
+local Tab12 = Window:MakeTab({"Coming soon", "map-pin"})
 
 
 
@@ -189,22 +57,15 @@ end
 
 local executorName = detectExecutor()
 
-local Paragraph = Tab1:AddParagraph({"Execultor", executorName})
+local Paragraph = Tab1:AddParagraph({"Executor", executorName})
 
-local Section = Tab1:AddSection({"versao do Hub 3.7"})
+local Section = Tab1:AddSection({"[ 🌟 ] Kakah Hub : Script sendo executado."})
 
-local Paragraph = Tab1:AddParagraph({"Criadores", "Lolyta \n ?????"})
+local Paragraph = Tab1:AddParagraph({"Criadores", "Kakah \n Wx"})
 
 
   
-  Tab1:AddButton({
-    Name = " - Copiar @ do TikTok",
-    Callback = function()
-      setclipboard("@lolytauwu") -- Copia o @
-      setclipboard("https://www.tiktok.com/@lolytauwu?_t=ZM-8wFjhRHkmOd&_r=1") -- Copia o link também, se quiser só o @, remova esta linha
-      
-    end
-  })
+  
 
  ---------------------------------------------------------------------------------------------------------------------------------
                                                    -- === Tab 2: Fun === --
@@ -834,7 +695,7 @@ Players.PlayerAdded:Connect(UptadePlayers)
 Players.PlayerRemoving:Connect(UptadePlayers)
 
 Tab3:AddButton({
-    Name = "Copy Avatar",
+    Name = "Copia de Avatar",
     Callback = function()
         if not Target then return end
 
@@ -971,29 +832,12 @@ end
 -- Tabela de avatares
 AvatarManager.Avatares = {
     { Nome = "Gato de Manga", ID = 124948425515124 },
-    { Nome = "Tung Saur", ID = 117098257036480 },
-    { Nome = "Tralaleiro", ID = 99459753608381 },
+    { Nome = "Tung Sahur", ID = 117098257036480 },
+    { Nome = "Tralalero", ID = 99459753608381 },
     { Nome = "Monstro S.A", ID = 123609977175226 },
     { Nome = "Trenzinho", ID = 80468697076178 },
     { Nome = "Dino", ID = 11941741105 },
     { Nome = "Pou idoso", ID = 15742966010  },
-    { Nome = "Coco/boxt@", ID = 77013984520332  },
-    { Nome = "Coelho", ID = 71797333686800  },
-    { Nome = "Hipopótamo", ID = 73215892129281 },
-    { Nome = "Ratatui", ID = 108557570415453 },
-    { Nome = "Galinha", ID = 71251793812515 },
-    { Nome = "Pepa pig", ID = 92979204778377 },
-    { Nome = "pinguin", ID = 94944293759578 },
-    { Nome = "Sid", ID = 87442757321244 },
-    { Nome = "puga grande", ID = 111436158728716 },
-    { Nome = "SHREK AMALDIÇOADO", ID = 120960401202173 },
-    { Nome = "mosquito grande", ID = 108052868536435 },
-    { Nome = "Noob Invertido", ID = 106596990206151 },
-    { Nome = "Pato(a)", ID = 135132836238349 },
-    { Nome = "Cachorro Chihuahua", ID = 18656467256 },
-    { Nome = "Gato sla", ID = 18994959003 },
-    { Nome = "Gato fei ", ID = 77506186615650 },
-    { Nome = "Inpostor", ID = 18234669337 },
     { Nome = "Simon amarelo", ID = 75183593514657 },
     { Nome = "Simon azul", ID = 76155710249925 }
     
@@ -1029,7 +873,7 @@ end
 -- Tab3: Opção de Avatar
 -- Dropdown para avatares
 local AvatarDropdown = Tab3:AddDropdown({
-    Name = "assesorios 3D",
+    Name = "Acessorios 3D",
     Description = "Selecione  para equipar",
     Default = nil,
     Options = AvatarManager:GetAvatarNames(),
@@ -1056,7 +900,7 @@ local Section = Tab3:AddSection({"Avatar Editor"})
 -- Botão para equipar partes do corpo
 
 Tab3:AddParagraph({
-    Title = "aviso vai resetar seu avatar",
+    Title = "Aviso, vai resetar seu avatar!",
     Content = ""
 })
 
@@ -1795,203 +1639,6 @@ Tab6:AddToggle({
     end
 })
 
-local ToggleCorpo = Tab6:AddToggle({
-    Name = "RGB Corpo",
-    Description = "RGB  no corpo",
-    Default = false
-})
-ToggleCorpo:Callback(function(Value)
-    getgenv().rgbCorpo = Value
-    task.spawn(function()
-        while getgenv().rgbCorpo do
-            local remote = game:GetService("ReplicatedStorage"):FindFirstChild("Remotes")
-            if remote and remote:FindFirstChild("ChangeBodyColor") then
-                pcall(function()
-                    remote.ChangeBodyColor:FireServer({
-                        BrickColor.new(getRainbowColor(rgbSpeed))
-                    })
-                end)
-            end
-            task.wait(0.1)
-        end
-    end)
-end)
-
-
-
-local ToggleCabelo = Tab6:AddToggle({
-    Name = "RGB Cabelo",
-    Description = "RGB  no cabelo",
-    Default = false
-})
-ToggleCabelo:Callback(function(Value)
-    getgenv().rgbCabelo = Value
-    task.spawn(function()
-        while getgenv().rgbCabelo do
-            fireServer("1Max1y", {
-                "ChangeHairColor2",
-                getRainbowColor(rgbSpeed)
-            })
-            task.wait(0.5)
-        end
-    end)
-end)
-
-
-
-local Section = Tab6:AddSection({"veiculos e casa"})
-
-
-
-local ToggleCasa = Tab6:AddToggle({
-    Name = "RGB Casa",
-    Description = "RGB  na casa",
-    Default = false
-})
-ToggleCasa:Callback(function(Value)
-    getgenv().rgbCasa = Value
-    task.spawn(function()
-        while getgenv().rgbCasa do
-            fireServer("1Player1sHous1e", {
-                "ColorPickHouse",
-                getRainbowColor(rgbSpeed)
-            })
-            task.wait(0.1)
-        end
-    end)
-end)
-
-
--- Carro RGB 
-local carRGBActive = false
-Tab6:AddToggle({
-    Name = "Carro RGB  (Premium)",
-    Description = "Altera a cor do carro com RGB contínuo. Pode causar kick se não for premium!",
-    Default = false,
-    Callback = function(state)
-        carRGBActive = state
-        if state then
-            task.spawn(function()
-                while carRGBActive and LocalPlayer.Character do
-                    local color = getRainbowColor(rgbSpeed)
-                    fireServer("1Player1sCa1r", { "PickingCarColor", color })
-                    task.wait(0.03)
-                end
-            end)
-        end
-    end
-})
-
-
-local ToggleBicicleta = Tab6:AddToggle({
-    Name = "RGB Bicicleta",
-    Description = "RGB na bicicleta",
-    Default = false
-})
-ToggleBicicleta:Callback(function(Value)
-    getgenv().rgbBicicleta = Value
-    task.spawn(function()
-        while getgenv().rgbBicicleta do
-            fireServer("1Player1sCa1r", {
-                "NoMotorColor",
-                getRainbowColor(rgbSpeed)
-            })
-            task.wait(0.1)
-        end
-    end)
-end)
-
-
-
-local Section = Tab6:AddSection({"itens/tool"})
-
-
--- NOVO TOGGLE: Rádio RGB
-local radioRGBActive = false
-Tab6:AddToggle({
-    Name = "Rádio RGB  ",
-    Description = "Altera a cor do rádio com RGB contínuo",
-    Default = false,
-    Callback = function(state)
-        radioRGBActive = state
-        if state then
-            task.spawn(function()
-                while radioRGBActive and LocalPlayer.Character do
-                    local color = getRainbowColor(rgbSpeed)
-                    local success, remote = pcall(function()
-                        return LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ToolGui"):WaitForChild("ToolSettings"):WaitForChild("Settings"):WaitForChild("PropsColor"):WaitForChild("SetColor")
-                    end)
-                    if success and remote then
-                        pcall(function()
-                            remote:FireServer(color)
-                        end)
-                    end
-                    task.wait(0.03)
-                end
-            end)
-        end
-    end
-})
-
-local ToggleMegafone = Tab6:AddToggle({
-    Name = "RGB Megafone",
-    Description = "RGB  no megafone",
-    Default = false
-})
-ToggleMegafone:Callback(function(Value)
-    getgenv().rgbMegafone = Value
-    task.spawn(function()
-        while getgenv().rgbMegafone do
-            local color = getRainbowColor(rgbSpeed)
-            local gui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-            if gui then
-                local btn = gui:FindFirstChild("ToolGui")
-                if btn then
-                    local settings = btn:FindFirstChild("ToolSettings")
-                    if settings then
-                        local props = settings:FindFirstChild("Settings"):FindFirstChild("PropsColor")
-                        if props and props:FindFirstChild("SetColor") then
-                            pcall(function()
-                                props.SetColor:FireServer(color)
-                            end)
-                        end
-                    end
-                end
-            end
-            task.wait(0.1)
-        end
-    end)
-end)
-
-local ToggleRosquinha = Tab6:AddToggle({
-    Name = "RGB Rosquinha",
-    Description = "RGB  na rosquinha",
-    Default = false
-})
-ToggleRosquinha:Callback(function(Value)
-    getgenv().rgbRosquinha = Value
-    task.spawn(function()
-        while getgenv().rgbRosquinha do
-            local color = getRainbowColor(rgbSpeed)
-            local gui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-            if gui then
-                local btn = gui:FindFirstChild("ToolGui")
-                if btn then
-                    local settings = btn:FindFirstChild("ToolSettings")
-                    if settings then
-                        local props = settings:FindFirstChild("Settings"):FindFirstChild("PropsColor")
-                        if props and props:FindFirstChild("SetColor") then
-                            pcall(function()
-                                props.SetColor:FireServer(color)
-                            end)
-                        end
-                    end
-                end
-            end
-            task.wait(0.1)
-        end
-    end)
-end)
 
 
 
@@ -2148,47 +1795,7 @@ end
 -- Dropdown "Memes"
 createSoundDropdown("Selecione um meme", {
     ["Memes"] = {
-        {name = "pankapakan", id = "122547522269143"}, 
-       
-        {name = "Gemido ultra rápido", id = "128863565301778"},
-        {name = "vai g0z@?", id = "116293771329297"},
-        {name = "G0z33iiii", id = "93462644278510"},
-        {name = "Hommmm ", id = "133135656929513"},
-        {name = "gemido1", id = "105263704862377"},
-        {name = " gemido2", id = "92186909873950"},
-        {name = "sus sex", id = "128137573022197"},
-        {name = "gemido estranho", id = "131219411501419"},
-        {name = "gemido kawai", id = "100409245129170"},
-        {name = "Hentai wiaaaaan", id = "88332347208779"},
-        {name = "iamete cunasai", id = "108494476595033"},
-        {name = "dodichan onnn...", id = "134640594695384"},
-        {name = "Loly gemiD0", id = "119277017538197"},
-         {name = "ai poison", id = "115870718113313"},
-         {name = "chegachega SUS", id = "77405864184828"},
-         {name = "uwu", id = "76820720070248"},
-         {name = "ai meu cuzin", id = "130714479795369"},
-         {name = "girl audio 2", id = "84207358477461"},
-        {name = "Hoo ze da manga", id = "106624090319571"},
-        {name = "ai alexandre de moraes", id = "107261471941570"},
-        {name = "haaii meme", id = "120006672159037"},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
- 
-    
-
+        {name = "pankapakan", id = "122547522269143"},
 
         {name = "GoGogo gogogo", id = "103262503950995"},
         {name = "Toma jack", id = "132603645477541"},
@@ -2218,54 +1825,7 @@ createSoundDropdown("Selecione um meme", {
         {name = "PASTOR MIRIM E A LÍNGUA DOS ANJOS", id = "71153532555470"},
         
         {name = "Sai d3sgraç@", id = "106973692977609"},
-        
-        {name = "opa salve tudo bem?", id = "80870678096428"},
-        {name = "OLHA O CARRO DO DANONE", id = "110493863773948"},
-        {name = "Nãoooo, Nãoooo, Nãooo!!!!!", id = "95825536480898"},
-        {name = "UM PÉ DE SIRIGUELA KK", id = "112804043442210"},
-        {name = "e o carro da pamonha", id = "94951629392683"},
-        {name = "BOM DIAAAAAAAAAA", id = "136579844511260"},
-        {name = "ai-meu-chiclete", id = "92911732806153"},
-        {name = "posso te ligar ou tua mulher...", id = "103211341252816"},
-        {name = "Boa chi joga muito cara", id = "110707564387669"},
-        {name = "Oqueee meme", id = "120092799810101"},
-        {name = "kkk muito fei", id = "79241074803021"},
-        {name = "lula cade o ze gotinha", id = "86012585992725"},
-        {name = "morreu", id = "8872409975"},
-        {name = "a-pia-ta-cheia-de-louca", id = "98076927129047"},
-        {name = "Mahito killSong", id = "128669424001766"},
-        {name = "Sucumba", id = "7946300950"},
-        {name = "nem clicou o thurzin", id = "84428355313544"},
-        {name = "fiui OLHA MENSAGEM", id = "121668429878811"},
-        {name = "tooomeee", id = "128319664118768"},
-        {name = "risada de ladrao", id = "133065882609605"},
-        {name = "E o PIX nada ainda", id = "113831443375212"},
-        {name = "Vo nada vo nada", id = "89093085290586"},
-        {name = "Eli gosta", id = "105012436535315"},
-        {name = "um cavalo de tres pernas?", id = "8164241439"},
-        {name = "voces sao um bado de fdp", id = "8232773326"},
-        {name = "HAHA TROLLEI ATÉ VOCÊ", id = "7021794555"},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        {name = "", id = ""},
-        
-        
-
-        {name = "Calaboca Kenga", id = "86494561679259"},
-        {name = "alvincut", id = "88788640194373"},
-        {name = "e a risada faz como?", id = "140713372459057"},
-        {name = "voce deve se m@t4", id = "100227426848009"},
-        {name = "receba", id = "94142662616215"},
-        {name = "UUIIII", id = "73210569653520"},
-        
+       
 
 
 
@@ -4708,167 +4268,3 @@ Tab9:AddButton({"Parar Tudo", function()
     originalProperties = nil
     showNotification("Tudo Parado", "Todas as funções foram desativadas.", nil)
 end})
-
-
-
-
-
----------------------------------------------------------------------------------------------------------------------------------
-                                                   -- === Tab 10: lag server === --
----------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------
-                                               -- === Tab 11: Scripts === --
-----------------------------------------------------------------------------------------------------------------------------------------------
-
-Tab11:AddButton({
-    Name = "FE Jerk Off Hub Matrix",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/ExploitFin/AquaMatrix/refs/heads/AquaMatrix/AquaMatrix"))()
-    end
-})
-
-Tab11:AddButton({
-    Name = "FE HUGG",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/JSFKGBASDJKHIOAFHDGHIUODSGBJKLFGDKSB/fe/refs/heads/main/FEHUGG"))()
-    end
-})
-
-
-
-Tab11:AddButton({
-    Name = "Buraco Negro",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Bac0nHck/Scripts/main/BringFlingPlayers"))("More Scripts: t.me/arceusxscripts")
-    end
-})
-
-local Section = Tab11:AddSection({"esse system broochk e voidProtection"})
-
-Tab11:AddButton({
-    Name = "System Broochk",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
-    end
-})
-
-Tab11:AddButton({
-    Name = "Roships",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-rochips-universal-18294"))()
-    end
-})
-
-Tab11:AddButton({
-    Name = "Sander X",
-    Description = "Somente para Brookhaven",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/kigredns/SanderXV4.2.2/refs/heads/main/New.lua"))()
-    end
-})
-
-Tab11:AddButton({
-    Name = "Reverso",
-    Description = "Universal",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0Ben1/fe./main/L"))()
-    end
-})
-
-Tab11:AddButton({
-    Name = "RD4",
-    Description = "Somente para Brookhaven",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/M1ZZ001/BrookhavenR4D/main/Brookhaven%20R4D%20Script"))()
-    end
-})
-
-
------------------------------------------------------------------------------------------------------------------------------------------
-                                          -- === Tab 12: Teleportes === --
------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
--- Tab12: Teleportes
-
-local teleportPlayer = game.Players.LocalPlayer
-local teleportLocation = "Morro" -- Valor padrão
-
-local locations = {
-    ["Morro"] = Vector3.new(-348.64, 65.94, -458.08),
-    ["Praça"] = Vector3.new(-26.17, 3.48, -0.93),
-    ["Banco"] = Vector3.new(1.99, 3.32, 236.65),
-    ["Hospital"] = Vector3.new(-303.2, 3.40, 13.74),
-    ["Prefeitura"] = Vector3.new(-354.65, 7.32, -102.16),
-    ["Fazenda"] = Vector3.new(-766.41, 2.92, -61.10),
-    ["Mercado"] = Vector3.new(16.31, 3.32, -107.07),
-    ["Shopping"] = Vector3.new(151.05, 3.52, -190.64),
-    ["Aeroporto"] = Vector3.new(290.23, 4.32, 42.57),
-    ["Hotel"] = Vector3.new(159.10, 3.32, 164.97),
-    ["Beira-mar 1"] = Vector3.new(55.69, 2.94, -1403.60),
-    ["Beira-mar 2"] = Vector3.new(42.39, 2.94, 1336.14)
-}
-
-Tab12:AddDropdown({
-    Name = "Locais de Brookhaven",
-    Description = "Selecione um local para teleportar",
-    Default = teleportLocation,
-    Multi = false,
-    Options = {
-        "Morro",
-        "Praça",
-        "Banco",
-        "Hospital",
-        "Prefeitura",
-        "Fazenda",
-        "Mercado",
-        "Shopping",
-        "Aeroporto",
-        "Hotel",
-        "Beira-mar 1",
-        "Beira-mar 2"
-    },
-    Callback = function(value)
-        teleportLocation = value
-    end
-})
-
-Tab12:AddButton({
-    Name = "Teleportar",
-    Description = "Teleporta para o local selecionado",
-    Callback = function()
-        if teleportPlayer.Character and teleportPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            local humanoidRootPart = teleportPlayer.Character.HumanoidRootPart
-            local humanoid = teleportPlayer.Character:FindFirstChildOfClass("Humanoid")
-            local pos = locations[teleportLocation]
-            if pos then
-                pcall(function()
-                    if humanoid then
-                        humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-                        humanoid.WalkSpeed = 0
-                    end
-                    humanoidRootPart.Anchored = true
-                    humanoidRootPart.CFrame = CFrame.new(pos)
-                    task.wait(0.4)
-                    humanoidRootPart.Anchored = false
-                    if humanoid then
-                        humanoid.WalkSpeed = 16
-                        humanoid:ChangeState(Enum.HumanoidStateType.Running)
-                    end
-                end)
-            end
-        end
-    end
-})
