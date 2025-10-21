@@ -4269,3 +4269,4 @@ Tab9:AddButton({"Parar Tudo", function()
     showNotification("Tudo Parado", "Todas as funções foram desativadas.", nil)
 end})
 
+
